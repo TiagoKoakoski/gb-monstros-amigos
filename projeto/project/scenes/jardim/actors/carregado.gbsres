@@ -31,7 +31,7 @@
         "vectorY": "12",
         "units": "pixels"
       },
-      "id": "56314369-c5c3-546b-8423-42a145761d15"
+      "id": "f32b3f77-f168-50c9-b1fa-48d6a50961f0"
     },
     {
       "command": "EVENT_ACTOR_SET_POSITION",
@@ -54,7 +54,7 @@
         },
         "units": "pixels"
       },
-      "id": "87c68861-8f13-5a36-a343-4a5dbd0b154d"
+      "id": "9aae6561-3ed2-567d-9fda-adc10549929c"
     }
   ],
   "hit1Script": [],

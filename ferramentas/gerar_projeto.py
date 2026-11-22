@@ -269,6 +269,25 @@ def entregou(m):
         somar("progresso"),
         emote(m, "amor"),
         som("tone", frequency=600, duration=0.2),
+        se(igual("ajudados", len(MONSTROS)), festa()),
+    ]
+
+
+def festa():
+    """Todos ajudados: monstros dançam, musiquinha de bipes, qualquer botão recomeça."""
+    jx, jy = POSICOES["jogador"]
+    melodia = []
+    for f in (523, 659, 784, 1047, 784, 1047):
+        melodia += [som("tone", frequency=f, duration=0.12), esperar(9)]
+    return [
+        setar("fim", 1),
+        esconder("vagalume"),
+    ] + [ev("EVENT_ACTOR_SET_ANIMATE", actorId=a(m), animate=True) for m in MONSTROS] + \
+        [emote(m, "musica") for m in MONSTROS[-1:]] + melodia + [
+        esperar(60),
+        ev("EVENT_AWAIT_INPUT", input=["a", "b", "start", "select"]),
+        ev("EVENT_SWITCH_SCENE", sceneId=ID("cena-jardim"), x=num(jx), y=num(jy + 1), direction="down",
+           fadeSpeed="2"),
     ]
 
 

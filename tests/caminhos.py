@@ -12,7 +12,9 @@ def alvo(nome):
     """Tile onde o pé do jogador deve parar para encostar em `nome`."""
     x, y = POSICOES[nome]
     if nome in ("dracula", "frankenstein", "mumia", "lobisomem"):
-        return float(x), float(y + 3)   # logo abaixo do monstro
+        if y + 1 > AVENIDA:
+            return float(x), float(y - 1)   # monstro de baixo: chega por cima
+        return float(x), float(y + 3)       # monstro de cima: chega por baixo
     return float(x), float(y + 1)       # em cima do item
 
 
