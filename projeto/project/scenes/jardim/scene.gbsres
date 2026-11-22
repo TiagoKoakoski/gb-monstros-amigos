@@ -1,0 +1,23 @@
+{
+  "_resourceType": "scene",
+  "id": "7cd9de40-cd7d-5eec-9fc6-a676c4a56058",
+  "_index": 0,
+  "type": "TOPDOWN",
+  "name": "Jardim",
+  "symbol": "scene_jardim",
+  "x": 100,
+  "y": 100,
+  "width": 40,
+  "height": 36,
+  "backgroundId": "067c4897-728a-5cdc-a870-e1ffe9503187",
+  "tilesetId": "",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "autoFadeSpeed": 1,
+  "script": [],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": [],
+  "collisions": "0f52+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+00b+0f2+00a+0f2+00b+0f4+00b+0f2+00a+0f2+00b+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+00b+0f2+00a+0f2+00b+0f4+00b+0f2+00a+0f2+00b+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f4+0024+0f52+"
+}

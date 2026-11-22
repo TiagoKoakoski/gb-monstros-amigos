@@ -1,0 +1,71 @@
+{
+  "_resourceType": "variables",
+  "variables": [
+    {
+      "id": "0",
+      "name": "carregando",
+      "symbol": "var_carregando"
+    },
+    {
+      "id": "1",
+      "name": "ajudados",
+      "symbol": "var_ajudados"
+    },
+    {
+      "id": "2",
+      "name": "ajudado_dracula",
+      "symbol": "var_ajudado_dracula"
+    },
+    {
+      "id": "3",
+      "name": "ajudado_frankenstein",
+      "symbol": "var_ajudado_frankenstein"
+    },
+    {
+      "id": "4",
+      "name": "ajudado_mumia",
+      "symbol": "var_ajudado_mumia"
+    },
+    {
+      "id": "5",
+      "name": "ajudado_lobisomem",
+      "symbol": "var_ajudado_lobisomem"
+    },
+    {
+      "id": "6",
+      "name": "progresso",
+      "symbol": "var_progresso"
+    },
+    {
+      "id": "7",
+      "name": "fim",
+      "symbol": "var_fim"
+    },
+    {
+      "id": "8",
+      "name": "guia",
+      "symbol": "var_guia"
+    },
+    {
+      "id": "9",
+      "name": "ocioso",
+      "symbol": "var_ocioso"
+    },
+    {
+      "id": "10",
+      "name": "ultimo_progresso",
+      "symbol": "var_ultimo_progresso"
+    },
+    {
+      "id": "11",
+      "name": "px",
+      "symbol": "var_px"
+    },
+    {
+      "id": "12",
+      "name": "py",
+      "symbol": "var_py"
+    }
+  ],
+  "constants": []
+}

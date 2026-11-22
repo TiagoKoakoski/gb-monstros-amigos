@@ -1,0 +1,13 @@
+{
+  "_resourceType": "background",
+  "id": "067c4897-728a-5cdc-a870-e1ffe9503187",
+  "name": "jardim",
+  "symbol": "bg_jardim",
+  "tileColors": "",
+  "filename": "jardim.png",
+  "width": 40,
+  "height": 36,
+  "imageWidth": 320,
+  "imageHeight": 288,
+  "autoColor": false
+}
