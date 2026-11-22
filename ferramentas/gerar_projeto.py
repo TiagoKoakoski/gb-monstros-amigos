@@ -23,7 +23,7 @@ ITENS = [ITEM_DE[m] for m in MONSTROS]  # índice+1 = valor de 'carregando'
 POSICOES = A.POSICOES
 
 VARIAVEIS = ["carregando", "ajudados"] + [f"ajudado_{m}" for m in MONSTROS] + \
-    ["progresso", "fim", "guia", "ocioso", "ultimo_progresso", "px", "py"]
+    ["progresso", "fim", "guia", "ocioso", "ultimo_progresso", "px", "py", "guia_alvo", "fio", "gx", "gy", "vx", "vy"]
 VAR = {n: str(i) for i, n in enumerate(VARIAVEIS)}
 
 
@@ -155,7 +155,7 @@ def a(nome):
 
 EMOTE = {"amor": "edf96d29-9a08-4813-b2d3-46e0996f89f2", "duvida": "70a4ce25-1fe4-4ab1-aee9-21255e70fb76",
          "musica": "f1be2ac3-04ab-482a-8b83-99ffba1a89cd"}
-SEM_COLISAO = ["carregado"] + [f"balao_{m}" for m in MONSTROS] + [f"item_{i}" for i in ITENS]
+SEM_COLISAO = ["carregado", "vagalume"] + [f"balao_{m}" for m in MONSTROS] + [f"item_{i}" for i in ITENS]
 
 
 def sem_colisao(nome):
@@ -185,7 +185,64 @@ def zerar_variaveis():
 
 
 def scripts_cena():
-    return zerar_variaveis() + [sem_colisao(n) for n in SEM_COLISAO] + [esconder("carregado")]
+    return zerar_variaveis() + [sem_colisao(n) for n in SEM_COLISAO] + \
+        [esconder("carregado"), esconder("vagalume"),
+         ev("EVENT_SET_TIMER_SCRIPT", children={"script": script_relogio()}, timer=1, duration=1, frames=60,
+            units="time")]
+
+
+def alvo_guia():
+    """Define guia_alvo, gx, gy: item do 1º monstro não ajudado, ou o dono do item carregado."""
+    def apontar(codigo, nome, dono=False):
+        x, y = POSICOES[nome]
+        return [setar("guia_alvo", codigo), setar("gx", x), setar("gy", y + (3 if dono else 1))]
+    # carregando: vai ao dono
+    cadeia_dono = []
+    for k in range(len(MONSTROS), 0, -1):
+        m = MONSTROS[k - 1]
+        cadeia_dono = [se(igual("carregando", k), apontar(10 + k, m, dono=True), cadeia_dono)]
+    # sem item: item do primeiro monstro ainda não ajudado
+    cadeia_item = []
+    for k in range(len(MONSTROS), 0, -1):
+        m = MONSTROS[k - 1]
+        cadeia_item = [se(igual(f"ajudado_{m}", 0), apontar(k, ITEM_DE[m]), cadeia_item)]
+    return [se(igual("carregando", 0), cadeia_item, cadeia_dono)]
+
+
+def voo_vagalume():
+    pisca = []
+    for _ in range(3):
+        pisca += [ev("EVENT_ACTOR_SET_FRAME", actorId=a("vagalume"), frame=num(1)), esperar(10),
+                  ev("EVENT_ACTOR_SET_FRAME", actorId=a("vagalume"), frame=num(0)), esperar(10)]
+    def limitar(g, v, d):
+        mais = {"type": "add", "valueA": var(v), "valueB": num(d)}
+        menos = {"type": "sub", "valueA": var(v), "valueB": num(d)}
+        return [se({"type": "gt", "valueA": var(g), "valueB": mais}, [ev("EVENT_SET_VALUE", variable=VAR[g], value=mais)]),
+                se({"type": "lt", "valueA": var(g), "valueB": menos}, [ev("EVENT_SET_VALUE", variable=VAR[g], value=menos)])]
+    return [
+        ev("EVENT_ACTOR_GET_POSITION", actorId="player", vectorX=VAR["vx"], vectorY=VAR["vy"], units="tiles"),
+    ] + limitar("gx", "vx", 6) + limitar("gy", "vy", 4) + [
+        ev("EVENT_ACTOR_SET_POSITION", actorId=a("vagalume"), x=var("vx"),
+           y={"type": "sub", "valueA": var("vy"), "valueB": num(2)}, units="tiles"),
+        ev("EVENT_ACTOR_SET_FRAME", actorId=a("vagalume"), frame=num(0)),
+        mostrar("vagalume"),
+        som("tone", frequency=900, duration=0.1),
+        ev("EVENT_ACTOR_MOVE_TO", actorId=a("vagalume"), x=var("gx"),
+           y={"type": "sub", "valueA": var("gy"), "valueB": num(1)}, moveType="diagonal",
+           useCollisions=False, collideWith=[], units="tiles"),
+    ] + pisca + [esconder("vagalume"), setar("guia", 0)]
+
+
+def script_relogio():
+    """A cada 1 s: conta tempo sem progresso; 5 s parado chama o vaga-lume."""
+    return [se({"type": "and", "valueA": igual("fim", 0), "valueB": igual("guia", 0)}, [
+        se({"type": "eq", "valueA": var("progresso"), "valueB": var("ultimo_progresso")},
+           [somar("ocioso")],
+           [ev("EVENT_SET_VALUE", variable=VAR["ultimo_progresso"], value=var("progresso")), setar("ocioso", 0)]),
+        se({"type": "gte", "valueA": var("ocioso"), "valueB": num(5)},
+           [setar("ocioso", 0)] + alvo_guia() + [setar("guia", 1),
+            ev("EVENT_THREAD_START", children={"true": voo_vagalume()}, variable=VAR["fio"])]),
+    ])]
 
 
 def script_item(item):
@@ -247,6 +304,7 @@ def montar_atores():
         atores.append(ator(f"item_{it}", f"item_{it}", x, y, i)); i += 1
         gats.append(gatilho(f"pegar_{it}", x - 1, y - 1, 4, 4, len(gats), script_item(it)))
     jx, jy = POSICOES["jogador"]
+    atores.append(ator("vagalume", "vagalume", jx, jy - 3, i)); i += 1
     atores.append(ator("carregado", f"item_{ITENS[0]}", jx, jy - 2, i, update=script_seguir_jogador())); i += 1
     return atores, gats
 

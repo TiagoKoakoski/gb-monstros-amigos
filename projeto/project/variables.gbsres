@@ -65,6 +65,36 @@
       "id": "12",
       "name": "py",
       "symbol": "var_py"
+    },
+    {
+      "id": "13",
+      "name": "guia_alvo",
+      "symbol": "var_guia_alvo"
+    },
+    {
+      "id": "14",
+      "name": "fio",
+      "symbol": "var_fio"
+    },
+    {
+      "id": "15",
+      "name": "gx",
+      "symbol": "var_gx"
+    },
+    {
+      "id": "16",
+      "name": "gy",
+      "symbol": "var_gy"
+    },
+    {
+      "id": "17",
+      "name": "vx",
+      "symbol": "var_vx"
+    },
+    {
+      "id": "18",
+      "name": "vy",
+      "symbol": "var_vy"
     }
   ],
   "constants": []

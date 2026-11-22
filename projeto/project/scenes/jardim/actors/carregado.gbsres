@@ -1,7 +1,7 @@
 {
   "_resourceType": "actor",
   "id": "d1dc561a-0f68-538a-b6cf-d8f8a18fedda",
-  "_index": 12,
+  "_index": 13,
   "symbol": "actor_carregado",
   "prefabId": "",
   "name": "carregado",
@@ -31,7 +31,7 @@
         "vectorY": "12",
         "units": "pixels"
       },
-      "id": "d92c6ced-2d69-51be-aafa-5469ff6b71fa"
+      "id": "56314369-c5c3-546b-8423-42a145761d15"
     },
     {
       "command": "EVENT_ACTOR_SET_POSITION",
@@ -54,7 +54,7 @@
         },
         "units": "pixels"
       },
-      "id": "70178338-2537-5362-8a13-1b93b4462f62"
+      "id": "87c68861-8f13-5a36-a343-4a5dbd0b154d"
     }
   ],
   "hit1Script": [],

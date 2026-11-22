@@ -41,6 +41,13 @@ class Emu:
         v = self.pb.memory[a] | (self.pb.memory[a + 1] << 8)
         return v - 0x10000 if v >= 0x8000 else v
 
+    def set_var(self, nome, valor):
+        idx = self.globais["VAR_" + nome.upper()]
+        a = self.endereco("_script_memory") + 2 * idx
+        valor &= 0xFFFF
+        self.pb.memory[a] = valor & 0xFF
+        self.pb.memory[a + 1] = valor >> 8
+
     def pos_jogador(self):
         """Posição do jogador (actors[0]) em tiles, com fração. pos é subpixel (tile = 256)."""
         a = self.endereco("_actors") + 1

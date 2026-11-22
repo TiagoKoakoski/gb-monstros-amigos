@@ -42,7 +42,7 @@
         "__collapseElse": true,
         "__disableElse": true
       },
-      "id": "041ec7e9-e84c-56c7-8559-2f9f8667f23f",
+      "id": "2a16c426-6e5b-5ca8-94a5-d501e40c988e",
       "children": {
         "true": [
           {
@@ -50,7 +50,7 @@
             "args": {
               "actorId": "be5f5249-feb5-5a3b-857b-2c954800ec0b"
             },
-            "id": "0c65f75c-e543-5459-abb8-e4d95cff6ef2"
+            "id": "96a5b88f-7e1f-55ef-bf9a-e37cf3310470"
           },
           {
             "command": "EVENT_SET_VALUE",
@@ -61,14 +61,14 @@
                 "value": 4
               }
             },
-            "id": "58cc273c-46a4-50ed-990b-9c9fe6538f71"
+            "id": "6be8d69c-267d-5ae1-bcfc-58f6366b1669"
           },
           {
             "command": "EVENT_INC_VALUE",
             "args": {
               "variable": "6"
             },
-            "id": "b01f9ca2-d1fe-5b5c-ad25-75943728e2c5"
+            "id": "8d69699f-5fef-561e-9cb9-b44f60ff0654"
           },
           {
             "command": "EVENT_ACTOR_SET_SPRITE",
@@ -76,14 +76,14 @@
               "actorId": "d1dc561a-0f68-538a-b6cf-d8f8a18fedda",
               "spriteSheetId": "5dfb8194-9232-5c9c-b520-7d2137e15139"
             },
-            "id": "e705752f-becb-585a-8d92-fa03f87a77d9"
+            "id": "8a11d222-f9ec-50fa-aa47-508afccf0e26"
           },
           {
             "command": "EVENT_ACTOR_SHOW",
             "args": {
               "actorId": "d1dc561a-0f68-538a-b6cf-d8f8a18fedda"
             },
-            "id": "1580ae93-1f96-51eb-b291-0df285975610"
+            "id": "f082e462-1f87-5a86-a4cc-a9a6b3e1df16"
           },
           {
             "command": "EVENT_SOUND_PLAY_EFFECT",
@@ -95,19 +95,19 @@
               "wait": false,
               "priority": "medium"
             },
-            "id": "cb206df7-06ac-58bb-97b5-d952fd098ac6"
+            "id": "7c73e7c1-151c-5f26-853d-02ce945ea211"
           },
           {
             "command": "EVENT_END",
             "args": {},
-            "id": "a8e1869c-0229-5526-80f1-603544368cf8"
+            "id": "6efecae5-9209-5fe3-a4b3-a2b41b205aea"
           }
         ],
         "false": [
           {
             "command": "EVENT_END",
             "args": {},
-            "id": "5b9ad256-3826-5d41-ac16-cb14006cd64e"
+            "id": "4fa90d0c-d51d-54cd-8e11-2c78ae4afe4c"
           }
         ]
       }
