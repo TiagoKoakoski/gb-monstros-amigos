@@ -151,10 +151,87 @@ def a(nome):
     return ID(f"ator-{nome}")
 
 
-# ------------------------------------------------------------------ lógica (preenchida nas tasks 4-6)
+# ------------------------------------------------------------------ lógica
+
+EMOTE = {"amor": "edf96d29-9a08-4813-b2d3-46e0996f89f2", "duvida": "70a4ce25-1fe4-4ab1-aee9-21255e70fb76",
+         "musica": "f1be2ac3-04ab-482a-8b83-99ffba1a89cd"}
+SEM_COLISAO = ["carregado"] + [f"balao_{m}" for m in MONSTROS] + [f"item_{i}" for i in ITENS]
+
+
+def sem_colisao(nome):
+    return ev("EVENT_ACTOR_COLLISIONS_DISABLE", actorId=a(nome))
+
+
+def esconder(nome):
+    return ev("EVENT_ACTOR_HIDE", actorId=a(nome))
+
+
+def mostrar(nome):
+    return ev("EVENT_ACTOR_SHOW", actorId=a(nome))
+
+
+def emote(nome, qual):
+    return ev("EVENT_ACTOR_EMOTE", actorId=a(nome), emoteId=EMOTE[qual])
+
+
+def balancar(nome):
+    mv = lambda dx: ev("EVENT_ACTOR_MOVE_RELATIVE", actorId=a(nome), x=num(dx), y=num(0), moveType="horizontal",
+                       useCollisions=False, collideWith=[], units="pixels")
+    return [mv(2), mv(-4), mv(2)]
+
+
+def zerar_variaveis():
+    return [setar(n, 0) for n in VARIAVEIS]
+
 
 def scripts_cena():
-    return []
+    return zerar_variaveis() + [sem_colisao(n) for n in SEM_COLISAO] + [esconder("carregado")]
+
+
+def script_item(item):
+    k = ITENS.index(item) + 1
+    dono = MONSTROS[k - 1]
+    return [se({"type": "and", "valueA": igual("carregando", 0), "valueB": igual(f"ajudado_{dono}", 0)}, [
+        esconder(f"item_{item}"),
+        setar("carregando", k),
+        somar("progresso"),
+        ev("EVENT_ACTOR_SET_SPRITE", actorId=a("carregado"), spriteSheetId=ID(f"sprite-item_{item}")),
+        mostrar("carregado"),
+        som("beep", pitch=6, duration=0.15),
+    ])]
+
+
+def entregou(m):
+    """O que acontece ao entregar o item certo ao monstro m (a festa entra na task 6)."""
+    return [
+        esconder(f"balao_{m}"),
+        esconder("carregado"),
+        setar(f"ajudado_{m}", 1),
+        somar("ajudados"),
+        setar("carregando", 0),
+        somar("progresso"),
+        emote(m, "amor"),
+        som("tone", frequency=600, duration=0.2),
+    ]
+
+
+def script_monstro(m):
+    k = MONSTROS.index(m) + 1
+    return [se(igual(f"ajudado_{m}", 0), [
+        se(igual("carregando", k), entregou(m), [
+            se({"type": "ne", "valueA": var("carregando"), "valueB": num(0)},
+               [emote(m, "duvida")] + balancar(m)),
+        ]),
+    ])]
+
+
+def script_seguir_jogador():
+    """update do 'carregado': fica 2 tiles acima do jogador."""
+    return [
+        ev("EVENT_ACTOR_GET_POSITION", actorId="player", vectorX=VAR["px"], vectorY=VAR["py"], units="pixels"),
+        ev("EVENT_ACTOR_SET_POSITION", actorId="$self$", x=var("px"),
+           y={"type": "sub", "valueA": var("py"), "valueB": num(14)}, units="pixels"),
+    ]
 
 
 def montar_atores():
@@ -163,11 +240,14 @@ def montar_atores():
     for m in MONSTROS:
         x, y = POSICOES[m]
         atores.append(ator(m, m, x, y, i)); i += 1
-        it = ITEM_DE[m]
-        atores.append(ator(f"balao_{m}", f"balao_{it}", x, y - 2, i)); i += 1
+        atores.append(ator(f"balao_{m}", f"balao_{ITEM_DE[m]}", x, y - 2, i)); i += 1
+        gats.append(gatilho(f"perto_{m}", x - 1, y - 1, 4, 5, len(gats), script_monstro(m)))
     for it in ITENS:
         x, y = POSICOES[it]
         atores.append(ator(f"item_{it}", f"item_{it}", x, y, i)); i += 1
+        gats.append(gatilho(f"pegar_{it}", x - 1, y - 1, 4, 4, len(gats), script_item(it)))
+    jx, jy = POSICOES["jogador"]
+    atores.append(ator("carregado", f"item_{ITENS[0]}", jx, jy - 2, i, update=script_seguir_jogador())); i += 1
     return atores, gats
 
 

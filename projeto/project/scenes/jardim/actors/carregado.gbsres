@@ -1,0 +1,63 @@
+{
+  "_resourceType": "actor",
+  "id": "d1dc561a-0f68-538a-b6cf-d8f8a18fedda",
+  "_index": 12,
+  "symbol": "actor_carregado",
+  "prefabId": "",
+  "name": "carregado",
+  "coordinateType": "tiles",
+  "x": 19,
+  "y": 16,
+  "frame": 0,
+  "animate": false,
+  "spriteSheetId": "2d20de89-7d70-5b67-ba4e-9539f695f260",
+  "paletteId": "",
+  "direction": "down",
+  "moveSpeed": 1,
+  "animSpeed": 15,
+  "isPinned": false,
+  "persistent": false,
+  "collisionGroup": "",
+  "collisionExtraFlags": [],
+  "prefabScriptOverrides": {},
+  "script": [],
+  "startScript": [],
+  "updateScript": [
+    {
+      "command": "EVENT_ACTOR_GET_POSITION",
+      "args": {
+        "actorId": "player",
+        "vectorX": "11",
+        "vectorY": "12",
+        "units": "pixels"
+      },
+      "id": "d92c6ced-2d69-51be-aafa-5469ff6b71fa"
+    },
+    {
+      "command": "EVENT_ACTOR_SET_POSITION",
+      "args": {
+        "actorId": "$self$",
+        "x": {
+          "type": "variable",
+          "value": "11"
+        },
+        "y": {
+          "type": "sub",
+          "valueA": {
+            "type": "variable",
+            "value": "12"
+          },
+          "valueB": {
+            "type": "number",
+            "value": 14
+          }
+        },
+        "units": "pixels"
+      },
+      "id": "70178338-2537-5362-8a13-1b93b4462f62"
+    }
+  ],
+  "hit1Script": [],
+  "hit2Script": [],
+  "hit3Script": []
+}

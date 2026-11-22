@@ -41,6 +41,14 @@ class Emu:
         v = self.pb.memory[a] | (self.pb.memory[a + 1] << 8)
         return v - 0x10000 if v >= 0x8000 else v
 
+    def pos_jogador(self):
+        """Posição do jogador (actors[0]) em tiles, com fração. pos é subpixel (tile = 256)."""
+        a = self.endereco("_actors") + 1
+        m = self.pb.memory
+        x = m[a] | (m[a + 1] << 8)
+        y = m[a + 2] | (m[a + 3] << 8)
+        return x / 256, y / 256
+
     def foto(self, caminho):
         Path(caminho).parent.mkdir(parents=True, exist_ok=True)
         self.pb.screen.image.save(str(caminho))
