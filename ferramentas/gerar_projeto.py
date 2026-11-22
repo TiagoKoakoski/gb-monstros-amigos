@@ -346,6 +346,11 @@ def main():
     for p in (PROJ / "assets/backgrounds").glob("*"):
         p.unlink()
 
+    # correção do motor: deslizar na diagonal (plugin de motor do próprio projeto)
+    dest = PROJ / "plugins/deslizar/engine/src/states/topdown.c"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(RAIZ / "motor/topdown.c", dest)
+
     escrever(PROJ / "project.gbsproj", {"_resourceType": "project", "name": "Monstros Amigos",
                                          "author": "Tiago", "notes": "Gerado por ferramentas/gerar_projeto.py",
                                          "_version": "4.2.0", "_release": "10"})
